@@ -1,4 +1,5 @@
 # ClassModelComparer
+
 ## Overview
 This application compares a class model defined in ArgoUML (zargo file) with a class model defined by a .NET assembly (dll file). The motivation for the application was to compare an [ADAPT](https://adaptframework.org/) ArgoUML class model with its corresponding .NET assembly to determine the gaps.
 
@@ -10,7 +11,7 @@ The application produces two output files:
 ## How it Works
 The application extracts the XMI file from the zargo file, which is just a zip archive. It builds a representation of the class model in memory. Then it uses reflection to build a representation of the .NET assembly class model in memory. Then it compares the the two and produces the output.
 
-## How you can use it
+## How To Use It
 Edit the config.xml file to specify correct paths to the zargo and dll files, and the correct path to an existing folder where the output should be produced. Then run it. It should take less than a second to run for a small model.
 
 ## Platform
