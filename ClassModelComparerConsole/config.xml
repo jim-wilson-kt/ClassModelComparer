@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Config>
+	<!-- FILES -->
+	<ArgoUmlFilepath>/Users/jim/Dropbox/Projects/AgGateway/North America/ADAPT/Model/20170503 Common Data Model.zargo</ArgoUmlFilepath>
+	<DotNetAssemblyFilepath>/Users/jim/Dropbox/Projects/AgGateway/North America/ADAPT/Model/ADAPT-master/source/ADAPT/bin/Debug/AgGateway.ADAPT.ApplicationDataModel.dll</DotNetAssemblyFilepath>
+	<OutputDirectoryPath>/Users/jim/Dropbox/Projects/AgGateway/North America/ADAPT/Model/ComparisonOutput</OutputDirectoryPath>
+	<OutputFilenamePrefix>ADAPT</OutputFilenamePrefix>
+	
+	<!-- IGNORE ARGO CLASSES -->
+	<ArgoClassIgnore>AnExample</ArgoClassIgnore>
+
+	<!-- IGNORE DOTNET CLASSES -->
+	<DotNetClassIgnore>AnExample</DotNetClassIgnore>
+	
+	<!-- TYPE EQUIVALENCIES -->
+	<TypeEquivalency>
+		<Argo>Integer</Argo>
+		<DotNet>Int32</DotNet>
+	</TypeEquivalency>
+	<!--
+	<TypeEquivalency>
+		<Argo>NumericRepresentationValue</Argo>
+		<DotNet>Double</DotNet>
+	</TypeEquivalency>
+	-->
+	
+</Config>
