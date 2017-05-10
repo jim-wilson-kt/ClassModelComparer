@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 using System.IO;
 using System.Xml;
 using System.Text;
+using System.Xml.Xsl;
 
 namespace ClassModelComparer
 {
@@ -26,8 +27,9 @@ namespace ClassModelComparer
             CompareClassModels();
 		}
 
-        private void SerializeClassModelComparison()
+		private XDocument SerializeClassModelComparison()
         {
+			string filename = GetOutputFilepath("Model_Comparison", "xml");
             XmlSerializer ser = new XmlSerializer(typeof(List<ClassComparison>));
 			using (StringWriter sww = new StringWriter())
 			{
@@ -38,9 +40,10 @@ namespace ClassModelComparer
 					serializationResult = serializationResult.Replace("</ArrayOfClassComparison>", configDoc.Root.ToString() + "</ArrayOfClassComparison>");
                     var doc = XDocument.Parse(serializationResult);
                     doc.Root.Name = "ClassComparison";
-                    doc.Save(GetOutputFilepath("Model_Comparison", "xml"));
+					doc.Save(filename);
 				} 
 			}
+			return XDocument.Load(filename);
         }
 
         public List<ClassComparison> CompareClassModels()
@@ -67,25 +70,38 @@ namespace ClassModelComparer
                     classComparison.DotNetClass = dotNetClass;
 				}
             }
-            SerializeClassModelComparison();
-            ProduceHtmlReport();
+            XDocument serializedClassModelComparison = SerializeClassModelComparison();
+			// ToDo: Uncomment this when ProduceHtmlReport is fixed
+            //ProduceHtmlReport(serializedClassModelComparison);
             ProduceIssueLog();
             return ClassComparisonList;
         }
 
-        private string GetOutputFilepath(string fileType, string extension)
+		private void ProduceHtmlReport(XDocument serializedClassModelComparison)
         {
+			// ToDo: Fix this! (ProduceHtmlReport)
+			XDocument htmlOutput = new XDocument();
+			using (XmlWriter writer = htmlOutput.CreateWriter())
+			{
+				// Load the style sheet.  
+				XslCompiledTransform xslt = new XslCompiledTransform();
+				// This line throws an error. Can't figure out what's going on. (Windows users: Note the Mac format in the filepath with forward slashes.)
+				xslt.Load(@"/Users/jim/Dropbox/code/ClassModelComparer/ClassModelComparerConsole/bin/Debug/ClassModelComparer.xsl");
+
+				// Execute the transform and output the results to a writer.  
+				xslt.Transform(serializedClassModelComparison.CreateReader(), writer);
+			}
+			htmlOutput.Save(GetOutputFilepath("Model_Comparison", "html"));
+		}
+
+		private string GetOutputFilepath(string fileType, string extension)
+		{
 			string outputPath = configDoc.XPathSelectElement("/Config/OutputDirectoryPath").Value;
 			string outputFilenamePrefix = configDoc.XPathSelectElement("/Config/OutputFilenamePrefix").Value;
-            string dateTimePart = DateTime.UtcNow.ToString("yyyy-MM-ddTHH.mm.ss");
-            string filename = $"{outputFilenamePrefix}_{fileType}_{dateTimePart}.{extension}";
-            return Path.Combine(outputPath, filename);
-        }
-
-        private void ProduceHtmlReport()
-        {
-            // ToDo: Implement this
-        }
+			string dateTimePart = DateTime.UtcNow.ToString("yyyy-MM-ddTHH.mm.ss");
+			string filename = $"{outputFilenamePrefix}_{fileType}_{dateTimePart}.{extension}";
+			return Path.Combine(outputPath, filename);
+		}
 
         private void AppendSectionTitle(string sectionTitle, StringBuilder sb, bool omitLeadingCrLf = false)
         {
