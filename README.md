@@ -19,3 +19,12 @@ I developed the code using Visual Studio for Mac. I have confirmed that it works
 
 ## External Dependencies
 The application uses DotNetZip to extract the XMI file from the zargo file.
+
+## Near-Term Development Plans
+1. Fix known issues (see below).
+2. Add support for comparing any combination of two ArgoUML and/or DLL files.
+
+## Known Issues
+1. The HTML output isn't produced. Loading the XSL file into the XslCompiledTransform fails. I have no idea what the problem is. It works fine doing the transformation using an XML tool like oXygen XML.
+2. In the HTML output, links are created for types that are not classes in the output (e.g., primitive types). The links don't hurt anything, but they don't go anywhere.
+3. In the HTML output, nullable, "List of x", and "IEnumerable of" types are not properly linked.
