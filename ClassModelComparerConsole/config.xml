@@ -7,10 +7,10 @@
 	<OutputFilenamePrefix>ADAPT</OutputFilenamePrefix>
 	
 	<!-- IGNORE ARGO CLASSES -->
-	<ArgoClassIgnore>AnExample</ArgoClassIgnore>
+	<ArgoClassIgnore>None</ArgoClassIgnore>
 
 	<!-- IGNORE DOTNET CLASSES -->
-	<DotNetClassIgnore>AnExample</DotNetClassIgnore>
+	<DotNetClassIgnore>None</DotNetClassIgnore>
 	
 	<!-- TYPE EQUIVALENCIES -->
 	<TypeEquivalency>
